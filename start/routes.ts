@@ -30,4 +30,5 @@ Route.group(() => {
 
   Route.post('/threads', 'ThreadsController.store').middleware('auth')
   Route.get('/threads/:id', 'ThreadsController.show')
+  Route.get('/threads', 'ThreadsController.index')
 }).prefix('api')
