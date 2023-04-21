@@ -6,7 +6,7 @@ export default class ThreadsController {
   public async index({ response }: HttpContextContract) {
     try {
       // const threads = await Thread.all()
-      const threads = await Thread.query().preload('user').preload('category')
+      const threads = await Thread.query().preload('user').preload('category').preload('replies')
       return response.status(200).json({
         data: threads,
       })
@@ -38,6 +38,7 @@ export default class ThreadsController {
         .where('id', params.id)
         .preload('user')
         .preload('category')
+        .preload('replies')
         .firstOrFail()
       return response.status(200).json({
         data: thread,
