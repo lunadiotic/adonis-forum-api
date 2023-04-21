@@ -67,4 +67,18 @@ export default class ThreadsController {
       })
     }
   }
+
+  public async destroy({ params, response }: HttpContextContract) {
+    try {
+      const thread = await Thread.findOrFail(params.id)
+      await thread.delete()
+      return response.status(200).json({
+        message: 'Thread deleted successfully',
+      })
+    } catch (error) {
+      return response.status(400).json({
+        message: error,
+      })
+    }
+  }
 }
