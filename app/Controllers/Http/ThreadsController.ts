@@ -1,4 +1,5 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import UnauthorizedException from 'App/Exceptions/UnauthorizedException'
 import Thread from 'App/Models/Thread'
 import SortThreadValidator from 'App/Validators/SortThreadValidator'
 import ThreadValidator from 'App/Validators/ThreadValidator'
@@ -74,9 +75,7 @@ export default class ThreadsController {
       const thread = await Thread.findOrFail(params.id)
 
       if (thread.userId !== user?.id) {
-        return response
-          .status(403)
-          .json({ message: 'Anda tidak memiliki izin untuk mengedit thread ini.' })
+        throw new UnauthorizedException('Anda tidak memiliki izin untuk mengedit thread ini.')
       }
 
       const validateData = await request.validate(ThreadValidator)
@@ -90,7 +89,7 @@ export default class ThreadsController {
       })
     } catch (error) {
       return response.status(400).json({
-        message: error,
+        message: error.message,
       })
     }
   }
