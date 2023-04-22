@@ -30,7 +30,7 @@ export default class ThreadsController {
       })
     } catch (error) {
       return response.status(400).json({
-        message: error.message,
+        message: error,
       })
     }
   }
